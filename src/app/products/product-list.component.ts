@@ -10,6 +10,13 @@ import { Component } from '@angular/core';
 // tslint:disable-next-line:component-class-suffix
 export class ProductList {
   pageTitle = 'Product List';
+  width = 60;
+  showImage = false;
+  filterValue = 'chart';
+  toggleImage(): void {
+    this.showImage = !this.showImage;
+  }
+  // tslint:disable-next-line:member-ordering
   products: any[] = [
     {
       'productId': 2,
