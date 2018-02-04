@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { IProduct } from './iproduct';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -10,14 +11,30 @@ import { Component } from '@angular/core';
 // tslint:disable-next-line:component-class-suffix
 export class ProductList {
   pageTitle = 'Product List';
-  width = 60;
+  imageWidth = 50;
+  imageMargin = 2;
   showImage = false;
-  filterValue = 'chart';
+
+  filteredProducts: IProduct[];
+  _filterValue: string;
+  get filterValue(): string {
+    return this._filterValue;
+  }
+  set filterValue (value: string) {
+    this._filterValue = value;
+    this.filteredProducts = this._filterValue ? this.performFilter(this.filterValue) : this.products;
+  }
   toggleImage(): void {
     this.showImage = !this.showImage;
   }
+  performFilter(filterBy: string): IProduct[] {
+    filterBy = filterBy.toLocaleLowerCase();
+    return this.products.filter((product: IProduct) =>
+      product.productName.toLocaleLowerCase().indexOf(filterBy) !== -1);
+
+  }
   // tslint:disable-next-line:member-ordering
-  products: any[] = [
+  products: IProduct[] = [
     {
       'productId': 2,
       'productName': 'Garden Cart',
@@ -39,4 +56,12 @@ export class ProductList {
       'imageUrl': 'http://openclipart.org/image/300px/svg_to_png/73/rejon_Hammer.png'
   }
   ];
+
+  /**
+   *
+   */
+  constructor() {
+    this.filteredProducts = this.products;
+    this.filterValue = 'cart';
+  }
 }
